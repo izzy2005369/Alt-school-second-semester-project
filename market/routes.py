@@ -58,7 +58,13 @@ def logout_page():
 @app.route('/signedblog', methods=['GET', 'POST'])
 def blogs_page():
     blogs = Blogs.query.all()
-    return render_template('signedblog.html', blog=blogs)
+    if "username" in session:
+            oruko = session["username"]
+            surname = User.query.filter_by(email_address=oruko).first()
+            surn = surname.username
+            last = surname.lastname
+            realname = surn +' '+last
+    return render_template('signedblog.html',realname=realname, blog=blogs)
 
 @app.route('/writeblog', methods=['GET', 'POST'] )
 def wblogs():
